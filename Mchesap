@@ -1,0 +1,237 @@
+{
+  "name": "mchesap",
+  "permissions": "NONE",
+  "restriction": "1",
+  "_id": "UgEgd",
+  "actions": [
+    {
+      "member": "1",
+      "varName": "",
+      "dataName": "${msg.guild.id}blacklist",
+      "defaultVal": "false",
+      "storage": "1",
+      "varName2": "blacklisted",
+      "name": "Store Member Data"
+    },
+    {
+      "storage": "1",
+      "varName": "blacklisted",
+      "comparison": "1",
+      "value": "true",
+      "iftrue": "0",
+      "iftrueVal": "",
+      "iffalse": "3",
+      "iffalseVal": "2",
+      "name": "Check Variable"
+    },
+    {
+      "channel": "0",
+      "varName": "",
+      "message": "${member}, Bu komutta block'landın!",
+      "storage": "0",
+      "varName2": "",
+      "iffalse": "0",
+      "iffalseVal": "",
+      "name": "Send Message"
+    },
+    {
+      "name": "End Action Sequence"
+    },
+    {
+      "storage": "3",
+      "varName": "commands",
+      "changeType": "1",
+      "value": "1",
+      "name": "Control Variable"
+    },
+    {
+      "storage": "3",
+      "varName": "commands",
+      "name": "Save Variable"
+    },
+    {
+      "condition": "0",
+      "comparison": "0",
+      "value": "1",
+      "iftrue": "3",
+      "iftrueVal": "4",
+      "iffalse": "0",
+      "iffalseVal": "",
+      "name": "Check Parameters"
+    },
+    {
+      "title": "",
+      "author": "",
+      "color": "FF0000",
+      "timestamp": "false",
+      "url": "",
+      "authorIcon": "",
+      "imageUrl": "",
+      "thumbUrl": "",
+      "storage": "1",
+      "varName": "embederror",
+      "name": "Create Embed Message"
+    },
+    {
+      "storage": "1",
+      "varName": "embederror",
+      "fieldName": "Error:",
+      "message": "Minecraft kullanıcı adını girin lütfen.",
+      "inline": "1",
+      "name": "Add Embed Field"
+    },
+    {
+      "storage": "1",
+      "varName": "embederror",
+      "channel": "0",
+      "varName2": "",
+      "name": "Send Embed Message"
+    },
+    {
+      "name": "End Action Sequence"
+    },
+    {
+      "info": "0",
+      "infoIndex": "1",
+      "storage": "1",
+      "varName": "nick",
+      "name": "Store Command Params"
+    },
+    {
+      "behavior": "1",
+      "interpretation": "0",
+      "code": "let request = require(\"request\")\nrequest({\n    url: \"https://api.mojang.com/users/profiles/minecraft/${tempVars(\"nick\")}\",\n    json: true\n}, function (error, response, body) {\n    if (!error && response.statusCode === 200) {\n       Actions.callNextAction(cache)\n    }\n    else {\n        jumpto = 22\n        const index = Math.max(jumpto - 1, 0);\n        cache.index = index - 1;\n        Actions.callNextAction(cache)\n    }\n})",
+      "storage": "0",
+      "varName": "",
+      "name": "Run Script"
+    },
+    {
+      "token": "",
+      "user": "",
+      "pass": "",
+      "url": "https://api.mojang.com/users/profiles/minecraft/${tempVars(\"nick\")}",
+      "path": "",
+      "storage": "1",
+      "varName": "obj",
+      "debugMode": "0",
+      "headers": "",
+      "name": "Store Json From WebAPI"
+    },
+    {
+      "token": "",
+      "user": "",
+      "pass": "",
+      "url": "https://api.mojang.com/user/profiles/${tempVars(\"obj\").id}/names",
+      "path": "*.name",
+      "storage": "1",
+      "varName": "namechanges",
+      "debugMode": "0",
+      "headers": "",
+      "name": "Store Json From WebAPI"
+    },
+    {
+      "title": "${tempVars(\"obj\").name} Hesap görünümü.",
+      "author": "",
+      "color": "00FF00",
+      "url": "",
+      "authorIcon": "",
+      "authorUrl": "",
+      "imageUrl": "https://mc-heads.net/body/${tempVars(\"obj\").id}",
+      "thumbUrl": "",
+      "timestamp": "false",
+      "debug": "false",
+      "text": "",
+      "year": "",
+      "month": "",
+      "day": "",
+      "hour": "",
+      "minute": "",
+      "second": "",
+      "storage": "1",
+      "varName": "embed",
+      "name": "Create Embed Message"
+    },
+    {
+      "storage": "1",
+      "varName": "embed",
+      "fieldName": "Name Change History",
+      "message": "${tempVars(\"namechanges\") || \"Değişik bir hata...\"}",
+      "inline": "1",
+      "name": "Add Embed Field"
+    },
+    {
+      "storage": "1",
+      "varName": "embed",
+      "fieldName": "UUID",
+      "message": "${tempVars(\"obj\").id}",
+      "inline": "1",
+      "name": "Add Embed Field"
+    },
+    {
+      "storage": "1",
+      "varName": "embed",
+      "fieldName": "NameMC Link",
+      "message": "[Tıkla!](https://es.namemc.com/profile/${tempVars(\"obj\").id}) Detaylı Minecraft profili.",
+      "inline": "1",
+      "name": "Add Embed Field"
+    },
+    {
+      "storage": "1",
+      "varName": "embed",
+      "channel": "0",
+      "varName2": "",
+      "name": "Send Embed Message"
+    },
+    {
+      "name": "End Action Sequence"
+    },
+    {
+      "title": "Hesap bulunamadı.",
+      "author": "",
+      "color": "FF0000",
+      "url": "",
+      "authorIcon": "",
+      "authorUrl": "",
+      "imageUrl": "",
+      "thumbUrl": "",
+      "timestamp": "false",
+      "debug": "false",
+      "text": "",
+      "year": "",
+      "month": "",
+      "day": "",
+      "hour": "",
+      "minute": "",
+      "second": "",
+      "storage": "1",
+      "varName": "error",
+      "name": "Create Embed Message"
+    },
+    {
+      "storage": "1",
+      "varName": "error",
+      "message": "`${tempVars(\"nick\")}` Böyle bir hesap bulunamadı.",
+      "name": "Set Embed Description"
+    },
+    {
+      "storage": "1",
+      "varName": "error",
+      "channel": "0",
+      "varName2": "",
+      "storage3": "0",
+      "varName3": "",
+      "iffalse": "0",
+      "iffalseVal": "",
+      "name": "Send Embed Message"
+    },
+    {
+      "name": "End Action Sequence"
+    }
+  ],
+  "comType": "0",
+  "_aliases": [
+    "namemc",
+    "minecraft",
+    "mc"
+  ]
+}
